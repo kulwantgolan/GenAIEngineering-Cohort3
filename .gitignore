@@ -2,10 +2,10 @@
 # --------------------
 # Ignore the virtual environment directory created by tools like venv, virtualenv
 venv/
-ragvenv/
+**/ragvenv/
 .venv/
 env/
-.env/
+**/.env/
 tagvenv/
 
 # Byte-compiled / optimized / DLL files
