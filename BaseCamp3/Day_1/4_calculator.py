@@ -1,3 +1,4 @@
+# Defining a structure for output as well using Pydantic models
 # calculator.py
 # A simple calculator with add and subtract functions
 from fastapi import FastAPI
@@ -9,24 +10,17 @@ from pydantic import BaseModel, Field
 app = FastAPI(
     title="Calculator API",
     description="A simple calculator API with add and subtract operations",
-    version="0.2.0"
+    version="0.2.0",
 )
+
 
 # Define Pydantic models for request validation
 class CalculationInput(BaseModel):
     a: float = Field(..., description="First number")
     b: float = Field(..., description="Second number")
 
-    model_config = {
-        "json_schema_extra": {
-            "examples": [
-                {
-                    "a": 10.5,
-                    "b": 5.2
-                }
-            ]
-        }
-    }
+    model_config = {"json_schema_extra": {"examples": [{"a": 10.5, "b": 5.2}]}}
+
 
 class CalculationResult(BaseModel):
     operation: str
@@ -39,14 +33,18 @@ class CalculationResult(BaseModel):
 def add(calculation: CalculationInput):
     """Add two numbers and return the result."""
     result = float(calculation.a) + float(calculation.b)
-    return CalculationResult(operation="add", a=calculation.a, b=calculation.b, result=result)
+    return CalculationResult(
+        operation="add", a=calculation.a, b=calculation.b, result=result
+    )
 
 
 @app.post("/subtract", response_model=CalculationResult)
 def subtract(calculation: CalculationInput):
     """Subtract b from a and return the result."""
     result = float(calculation.a) - float(calculation.b)
-    return CalculationResult(operation="subtract", a=calculation.a, b=calculation.b, result=result)
+    return CalculationResult(
+        operation="subtract", a=calculation.a, b=calculation.b, result=result
+    )
 
 
 @app.get("/")
