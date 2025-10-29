@@ -6,6 +6,9 @@ import altair as alt
 import io
 import base64
 
+# pip install XlsxWriter
+
+
 # Basic Hello World app
 st.title("Hello, Streamlit!")
 st.write("Welcome to your first Streamlit app!")
@@ -44,22 +47,22 @@ st.header("Selectbox and Buttons")
 
 # Selectbox
 option = st.selectbox(
-    'What is your favorite programming language?',
-    ('Python', 'JavaScript', 'Java', 'C++', 'Other')
+    "What is your favorite programming language?",
+    ("Python", "JavaScript", "Java", "C++", "Other"),
 )
 st.write(f"You selected: {option}")
 
 # Radio buttons
 level = st.radio(
     "What is your programming experience level?",
-    ("Beginner", "Intermediate", "Advanced")
+    ("Beginner", "Intermediate", "Advanced"),
 )
 st.write(f"You are at the {level} level.")
 
 # Buttons
 if st.button("Say Hello"):
     st.write("Hello there!")
-    
+
 # Using columns for button layout
 col1, col2 = st.columns(2)
 with col1:
@@ -106,10 +109,10 @@ st.header("Data Display")
 
 # Create a sample dataframe
 data = {
-    'Name': ['John', 'Anna', 'Peter', 'Linda'],
-    'Age': [28, 34, 29, 42],
-    'City': ['New York', 'Paris', 'Berlin', 'London'],
-    'Salary': [65000, 70000, 62000, 85000]
+    "Name": ["John", "Anna", "Peter", "Linda"],
+    "Age": [28, 34, 29, 42],
+    "City": ["New York", "Paris", "Berlin", "London"],
+    "Salary": [65000, 70000, 62000, 85000],
 }
 df = pd.DataFrame(data)
 
@@ -130,29 +133,28 @@ col3.metric("Avg Salary", f"${df['Salary'].mean():.2f}", "$1,200")
 
 # JSON display
 st.subheader("JSON Display")
-st.json({
-    "name": "Streamlit",
-    "version": "1.20.0",
-    "features": ["Easy to use", "Fast prototyping", "Interactive widgets"]
-})
+st.json(
+    {
+        "name": "Streamlit",
+        "version": "1.20.0",
+        "features": ["Easy to use", "Fast prototyping", "Interactive widgets"],
+    }
+)
 
 # Code display
 st.subheader("Code Display")
-code = '''
+code = """
 def hello_world():
     print("Hello, Streamlit!")
     return "Success"
-'''
+"""
 st.code(code, language="python")
 
 # Charts and Visualizations
 st.header("Charts and Visualizations")
 
 # Create sample data for charts
-chart_data = pd.DataFrame(
-    np.random.randn(20, 3),
-    columns=['A', 'B', 'C']
-)
+chart_data = pd.DataFrame(np.random.randn(20, 3), columns=["A", "B", "C"])
 
 # Line chart
 st.subheader("Line Chart")
@@ -169,31 +171,29 @@ st.bar_chart(chart_data)
 # Matplotlib integration
 st.subheader("Matplotlib Chart")
 fig, ax = plt.subplots(figsize=(10, 4))
-ax.scatter(chart_data.index, chart_data['A'], label='A', color='blue', alpha=0.7)
-ax.scatter(chart_data.index, chart_data['B'], label='B', color='red', alpha=0.7)
-ax.set_xlabel('Index')
-ax.set_ylabel('Value')
-ax.set_title('Scatter Plot with Matplotlib')
+ax.scatter(chart_data.index, chart_data["A"], label="A", color="blue", alpha=0.7)
+ax.scatter(chart_data.index, chart_data["B"], label="B", color="red", alpha=0.7)
+ax.set_xlabel("Index")
+ax.set_ylabel("Value")
+ax.set_title("Scatter Plot with Matplotlib")
 ax.legend()
 ax.grid(True)
 st.pyplot(fig)
 
 # Altair chart
 st.subheader("Altair Chart")
-chart = alt.Chart(chart_data.reset_index()).mark_circle().encode(
-    x='index',
-    y='A',
-    size='B',
-    color='C',
-    tooltip=['index', 'A', 'B', 'C']
-).interactive()
+chart = (
+    alt.Chart(chart_data.reset_index())
+    .mark_circle()
+    .encode(x="index", y="A", size="B", color="C", tooltip=["index", "A", "B", "C"])
+    .interactive()
+)
 st.altair_chart(chart, use_container_width=True)
 
 # Map
 st.subheader("Map Display")
 map_data = pd.DataFrame(
-    np.random.randn(1000, 2) / [50, 50] + [37.76, -122.4],
-    columns=['lat', 'lon']
+    np.random.randn(1000, 2) / [50, 50] + [37.76, -122.4], columns=["lat", "lon"]
 )
 st.map(map_data)
 
@@ -208,17 +208,19 @@ if uploaded_file is not None:
     df_upload = pd.read_csv(uploaded_file)
     st.write("Data Preview:")
     st.dataframe(df_upload.head())
-    
+
     # Show basic statistics
     st.write("Data Statistics:")
     st.write(df_upload.describe())
-    
+
     # Plot uploaded data
     st.write("Data Visualization:")
     if st.checkbox("Show Plot for Uploaded Data"):
         try:
             # Try to create a chart from the uploaded data
-            st.line_chart(df_upload.select_dtypes(include=['float64', 'int64']).iloc[:, :3])
+            st.line_chart(
+                df_upload.select_dtypes(include=["float64", "int64"]).iloc[:, :3]
+            )
         except Exception as e:
             st.error(f"Could not plot data: {e}")
 
@@ -226,30 +228,36 @@ if uploaded_file is not None:
 st.subheader("File Download")
 
 # Create a sample dataframe for download
-download_data = pd.DataFrame({
-    'Category': ['A', 'B', 'C', 'D'],
-    'Value 1': [10, 20, 30, 40],
-    'Value 2': [100, 200, 300, 400]
-})
+download_data = pd.DataFrame(
+    {
+        "Category": ["A", "B", "C", "D"],
+        "Value 1": [10, 20, 30, 40],
+        "Value 2": [100, 200, 300, 400],
+    }
+)
+
 
 # CSV download
 def convert_df_to_csv(df):
-    return df.to_csv(index=False).encode('utf-8')
+    return df.to_csv(index=False).encode("utf-8")
+
 
 csv = convert_df_to_csv(download_data)
 st.download_button(
     label="Download as CSV",
     data=csv,
-    file_name='sample_data.csv',
-    mime='text/csv',
+    file_name="sample_data.csv",
+    mime="text/csv",
 )
+
 
 # Excel download
 def convert_df_to_excel(df):
     output = io.BytesIO()
-    with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
-        df.to_excel(writer, sheet_name='Sheet1', index=False)
+    with pd.ExcelWriter(output, engine="xlsxwriter") as writer:
+        df.to_excel(writer, sheet_name="Sheet1", index=False)
     processed_data = output.getvalue()
     return processed_data
+
 
 excel = convert_df_to_excel(download_data)

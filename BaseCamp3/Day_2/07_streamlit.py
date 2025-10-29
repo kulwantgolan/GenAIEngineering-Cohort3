@@ -42,22 +42,22 @@ st.header("Selectbox and Buttons")
 
 # Selectbox
 option = st.selectbox(
-    'What is your favorite programming language?',
-    ('Python', 'JavaScript', 'Java', 'C++', 'Other')
+    "What is your favorite programming language?",
+    ("Python", "JavaScript", "Java", "C++", "Other"),
 )
 st.write(f"You selected: {option}")
 
 # Radio buttons
 level = st.radio(
     "What is your programming experience level?",
-    ("Beginner", "Intermediate", "Advanced")
+    ("Beginner", "Intermediate", "Advanced"),
 )
 st.write(f"You are at the {level} level.")
 
 # Buttons
 if st.button("Say Hello"):
     st.write("Hello there!")
-    
+
 # Using columns for button layout
 col1, col2 = st.columns(2)
 with col1:
@@ -104,10 +104,10 @@ st.header("Data Display")
 
 # Create a sample dataframe
 data = {
-    'Name': ['John', 'Anna', 'Peter', 'Linda'],
-    'Age': [28, 34, 29, 42],
-    'City': ['New York', 'Paris', 'Berlin', 'London'],
-    'Salary': [65000, 70000, 62000, 85000]
+    "Name": ["John", "Anna", "Peter", "Linda"],
+    "Age": [28, 34, 29, 42],
+    "City": ["New York", "Paris", "Berlin", "London"],
+    "Salary": [65000, 70000, 62000, 85000],
 }
 df = pd.DataFrame(data)
 
@@ -128,30 +128,31 @@ col3.metric("Avg Salary", f"${df['Salary'].mean():.2f}", "$1,200")
 
 # JSON display
 st.subheader("JSON Display")
-st.json({
-    "name": "Streamlit",
-    "version": "1.20.0",
-    "features": ["Easy to use", "Fast prototyping", "Interactive widgets"]
-})
+st.json(
+    {
+        "name": "Streamlit",
+        "version": "1.20.0",
+        "features": ["Easy to use", "Fast prototyping", "Interactive widgets"],
+    }
+)
 
 # Code display
 st.subheader("Code Display")
-code = '''
+code = """
 def hello_world():
     print("Hello, Streamlit!")
     return "Success"
-'''
+"""
 st.code(code, language="python")
 
 # Charts and Visualizations
 st.header("Charts and Visualizations")
 
 # Create sample data for charts
-chart_data = pd.DataFrame(
-    np.random.randn(20, 3),
-    columns=['A', 'B', 'C']
-)
+chart_data = pd.DataFrame(np.random.randn(20, 3), columns=["A", "B", "C"])
 
+
+# Altair is a declarative statistical visualization library for Python built on top of Vega and Vega-Lite, which are visualization grammars using JSON to describe visual appearances and interactions.
 # Line chart
 st.subheader("Line Chart")
 st.line_chart(chart_data)
@@ -167,30 +168,28 @@ st.bar_chart(chart_data)
 # Matplotlib integration
 st.subheader("Matplotlib Chart")
 fig, ax = plt.subplots(figsize=(10, 4))
-ax.scatter(chart_data.index, chart_data['A'], label='A', color='blue', alpha=0.7)
-ax.scatter(chart_data.index, chart_data['B'], label='B', color='red', alpha=0.7)
-ax.set_xlabel('Index')
-ax.set_ylabel('Value')
-ax.set_title('Scatter Plot with Matplotlib')
+ax.scatter(chart_data.index, chart_data["A"], label="A", color="blue", alpha=0.7)
+ax.scatter(chart_data.index, chart_data["B"], label="B", color="red", alpha=0.7)
+ax.set_xlabel("Index")
+ax.set_ylabel("Value")
+ax.set_title("Scatter Plot with Matplotlib")
 ax.legend()
 ax.grid(True)
 st.pyplot(fig)
 
 # Altair chart
 st.subheader("Altair Chart")
-chart = alt.Chart(chart_data.reset_index()).mark_circle().encode(
-    x='index',
-    y='A',
-    size='B',
-    color='C',
-    tooltip=['index', 'A', 'B', 'C']
-).interactive()
+chart = (
+    alt.Chart(chart_data.reset_index())
+    .mark_circle()
+    .encode(x="index", y="A", size="B", color="C", tooltip=["index", "A", "B", "C"])
+    .interactive()
+)
 st.altair_chart(chart, use_container_width=True)
 
 # Map
 st.subheader("Map Display")
 map_data = pd.DataFrame(
-    np.random.randn(1000, 2) / [50, 50] + [37.76, -122.4],
-    columns=['lat', 'lon']
+    np.random.randn(1000, 2) / [50, 50] + [37.76, -122.4], columns=["lat", "lon"]
 )
 st.map(map_data)
